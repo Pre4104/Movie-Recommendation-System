@@ -2,7 +2,7 @@
 
 A content-based movie recommendation engine that suggests similar movies based on plot, genre, cast, and crew — built with Python, scikit-learn, and Streamlit.
 
-**[Live Demo →](#)** *(add your Streamlit Cloud link here after deployment)*
+**[Live Demo →](#)** 
 
 ---
 
@@ -49,33 +49,30 @@ movie-recommender/
 └── tmdb_5000_credits.csv  # Dataset (not included — see Setup)
 ```
 
-> `movies.pkl` and `similarity.pkl` are generated locally by `train_model.py` and are **not committed to this repo** (see [Why no .pkl files?](#why-no-pkl-files)).
+> `movies.pkl` and `similarity.pkl` are tracked using **Git LFS** (Large File Storage) since they exceed typical version control size — see [Why Git LFS?](#why-git-lfs) below.
 
 ---
 
 ## Setup & Usage
 
-### 1. Clone the repo
+### 1. Install Git LFS (one-time, if you don't have it)
+```bash
+git lfs install
+```
+
+### 2. Clone the repo
 ```bash
 git clone https://github.com/<your-username>/movie-recommender.git
 cd movie-recommender
 ```
+Git LFS will automatically pull `movies.pkl` and `similarity.pkl` during clone.
 
-### 2. Install dependencies
+### 3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Download the dataset
-Get the [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata) from Kaggle and place `tmdb_5000_movies.csv` and `tmdb_5000_credits.csv` in the project folder.
-
-### 4. Train the model (run once)
-```bash
-python train_model.py
-```
-This generates `movies.pkl` and `similarity.pkl`.
-
-### 5. Run the app
+### 4. Run the app
 ```bash
 streamlit run app.py
 ```
@@ -83,14 +80,28 @@ Opens automatically at `http://localhost:8501`
 
 ---
 
-## Why No `.pkl` Files?
+### Re-training the model (optional)
 
-The trained similarity matrix is a large binary file (~90MB+) that:
-- Provides no value in version control (can't be diffed or reviewed)
-- Risks exceeding GitHub's file size limits as the dataset grows
-- Is fully reproducible by running `train_model.py` — there's no reason to track generated artifacts
+If you want to rebuild the model yourself instead of using the committed `.pkl` files:
 
-This follows standard ML engineering practice: **track code and data sources, not generated model files.**
+1. Download the [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata) from Kaggle
+2. Place `tmdb_5000_movies.csv` and `tmdb_5000_credits.csv` in the project folder
+3. Run:
+```bash
+python train_model.py
+```
+This regenerates `movies.pkl` and `similarity.pkl` locally.
+
+---
+
+## Why Git LFS?
+
+The trained similarity matrix is a large binary file (~90MB as float32). Committing it directly to git would bloat the repository's history with a non-diffable binary blob. **Git LFS** solves this by storing large files outside the normal git object database while keeping them version-controlled and instantly available on clone — including for Streamlit Cloud's deployment pipeline, which pulls LFS files automatically during build.
+
+This keeps the repo:
+- Lightweight to clone for casual browsing
+- Reproducible (you can still regenerate the files via `train_model.py`)
+- Deployment-ready without recomputing the model on every cold start
 
 ---
 
@@ -106,16 +117,6 @@ Avengers: Age of Ultron
 Iron Man 3
 Iron Man 2
 ```
-
----
-
-## Possible Improvements
-
-- [ ] Add movie posters via TMDB API for a richer UI
-- [ ] Try TF-IDF vectorization as an alternative to CountVectorizer
-- [ ] Add a hybrid approach combining content-based + collaborative filtering
-- [ ] Deploy with a larger, more recent dataset to cover newer releases
-
 ---
 
 ## Author
