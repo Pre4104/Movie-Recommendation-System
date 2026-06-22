@@ -1,4 +1,15 @@
-# Byte-compiled / optimized / DLL files
+# ===== Project-specific (Movie Recommendation System) =====
+# Generated model files - regenerate locally via train_model.py
+*.pkl
+
+# Dataset files - download from Kaggle, see README for instructions
+tmdb_5000_movies.csv
+tmdb_5000_credits.csv
+
+# Kaggle API credentials - never commit this
+kaggle.json
+
+# ===== Python =====
 __pycache__/
 *.py[codz]
 *$py.class
