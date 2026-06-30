@@ -119,6 +119,7 @@ Iron Man 2
 ```
 ---
 
-## Author
+##  Author
 
-Built by **B S Lakshmi Prerana** as part of an ML/AI portfolio project, exploring content-based recommendation systems and NLP-based feature engineering.
+**B S Lakshmi Prerana**  
+BTech AI & ML, UVCE Bengaluru (2024–2028)  
