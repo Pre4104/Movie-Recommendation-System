@@ -48,5 +48,3 @@ if st.button("Recommend"):
         st.subheader("Top 5 Recommendations:")
         for title in recommendations:
             st.write(f"🎥 {title}")
-
-similarity = similarity.astype('float32')
