@@ -98,13 +98,13 @@ def main():
     cv = CountVectorizer(max_features=5000, stop_words='english')
     vectors = cv.fit_transform(movies['tags']).toarray()
 
-    print("Computing cosine similarity matrix...")
-    similarity = cosine_similarity(vectors)
+  print("Computing cosine similarity matrix...")
+similarity = cosine_similarity(vectors)
+similarity = similarity.astype('float32')  # halves memory vs default float64
 
-    print("Saving movies.pkl and similarity.pkl...")
-    pickle.dump(movies, open('movies.pkl', 'wb'))
-    pickle.dump(similarity, open('similarity.pkl', 'wb'))
-
+print("Saving movies.pkl and similarity.pkl...")
+pickle.dump(movies, open('movies.pkl', 'wb'))
+pickle.dump(similarity, open('similarity.pkl', 'wb'))
     print("\nDone! You can now run: streamlit run app.py")
     print(f"Total movies processed: {len(movies)}")
 
